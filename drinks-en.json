@@ -1,0 +1,17 @@
+[
+  {
+    "state": "equilibre",
+    "name": "Ginger-lemon infusion",
+    "benefit": "Cleansing and soothing after meals."
+  },
+  {
+    "state": "fatigue",
+    "name": "Hibiscus mint juice",
+    "benefit": "Rich in antioxidants, light energy boost."
+  },
+  {
+    "state": "detox",
+    "name": "Cucumber-lemon water",
+    "benefit": "Hydrating and purifying for body balance."
+  }
+]

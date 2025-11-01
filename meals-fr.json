@@ -1,0 +1,23 @@
+[
+  {
+    "sign": "aries",
+    "meal": "Petit-déjeuner",
+    "title": "Bowl énergie bissap & avoine",
+    "calories": 420,
+    "description": "Parfait pour Bélier : tonique, rapide, riche en fer et vitamine C."
+  },
+  {
+    "sign": "taurus",
+    "meal": "Déjeuner",
+    "title": "Thieb healthy au poisson grillé",
+    "calories": 640,
+    "description": "Pour Taureau : plaisir, riz complet et légumes équilibrés."
+  },
+  {
+    "sign": "gemini",
+    "meal": "Dîner",
+    "title": "Wrap poulet-mangue léger",
+    "calories": 530,
+    "description": "Idéal pour Gémeaux : rapide, frais et varié."
+  }
+]

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AstroFood – Premium Deploy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #FBBF24;
+      --dark: #020617;
+      --panel: rgba(3,7,18,0.35);
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #0f172a, #020617 65%);
+      color: #fff;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(251,191,36,0.2);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .brand img {
+      height: 44px;
+    }
+    .lang-switch {
+      display: flex;
+      gap: .35rem;
+    }
+    .lang-switch button {
+      background: transparent;
+      border: 1px solid rgba(251,191,36,0.4);
+      color: #fff;
+      padding: .25rem .6rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: .75rem;
+    }
+    .lang-switch button.active {
+      background: rgba(251,191,36,.2);
+      border-color: var(--gold);
+    }
+    main {
+      display: grid;
+      grid-template-columns: 300px 1fr 280px;
+      gap: 1rem;
+      padding: 1rem 1.5rem 5.5rem;
+      flex: 1;
+    }
+    .zodiac-list, .recipes, .assistant, .drinks {
+      background: var(--panel);
+      border: 1px solid rgba(251,191,36,0.08);
+      border-radius: 1.25rem;
+      backdrop-filter: blur(9px);
+    }
+    .zodiac-list {
+      padding: .75rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .5rem;
+      max-height: calc(100vh - 7.5rem);
+      overflow-y: auto;
+    }
+    .zodiac-item {
+      border: 1px solid transparent;
+      border-radius: 1rem;
+      padding: .5rem .4rem;
+      cursor: pointer;
+      text-align: center;
+      background: rgba(2,6,23,0.25);
+      font-size: .7rem;
+    }
+    .zodiac-item span {
+      display: block;
+      font-size: .6rem;
+      opacity: .8;
+    }
+    .zodiac-item.active {
+      border-color: rgba(251,191,36,.5);
+      background: rgba(251,191,36,.1);
+    }
+    .recipes {
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+    .recipes h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .meal-card {
+      background: rgba(15,23,42,0.2);
+      border: 1px solid rgba(251,191,36,0.05);
+      border-radius: .9rem;
+      padding: .5rem .75rem .6rem;
+    }
+    .meal-title {
+      font-weight: 600;
+      margin-bottom: .25rem;
+    }
+    .meal-meta {
+      font-size: .7rem;
+      opacity: .65;
+      margin-bottom: .4rem;
+    }
+    .drinks {
+      padding: .75rem .75rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .drink-card {
+      background: rgba(15,23,42,0.35);
+      border: 1px solid rgba(251,191,36,0.05);
+      border-radius: .7rem;
+      padding: .35rem .5rem;
+      font-size: .73rem;
+    }
+    .assistant {
+      display: none; /* tu pourras l’afficher si tu veux le chatbot dans la page */
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: radial-gradient(circle at top, rgba(15,23,42,1), rgba(2,6,23,0.6));
+      border-top: 1px solid rgba(251,191,36,0.13);
+      display: flex;
+      justify-content: space-between;
+      padding: .75rem 1.5rem;
+      align-items: center;
+      gap: 1rem;
+    }
+    .qr-block {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .qr-block img {
+      width: 64px;
+      height: 64px;
+      border: 1px solid rgba(251,191,36,0.4);
+      border-radius: .6rem;
+    }
+    .qr-legend {
+      font-size: .7rem;
+      line-height: 1.1;
+      font-family: "Cairo", system-ui, sans-serif;
+      color: var(--gold);
+    }
+    @media (max-width: 1024px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      .zodiac-list {
+        grid-template-columns: repeat(6, minmax(70px,1fr));
+      }
+      footer {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="./assets/logo-astrofood.png" alt="AstroFood" />
+      <div>
+        <div style="font-weight:600">AstroFood – Eat by the Stars</div>
+        <div style="font-size:.7rem;opacity:.6">Recettes ♥ astrologie ♥ AI</div>
+      </div>
+    </div>
+    <div class="lang-switch" id="lang-switch">
+      <button data-lang="fr" class="active">FR</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="ar">AR</button>
+    </div>
+  </header>
+
+  <main>
+    <aside class="zodiac-list" id="zodiac-list">
+      <!-- rempli par JS -->
+    </aside>
+
+    <section class="recipes">
+      <h2>
+        <span id="recipes-title">Recettes du signe</span>
+        <small id="current-sign-label" style="opacity:.65;"></small>
+      </h2>
+      <div id="recipes-container">
+        <!-- cartes recettes -->
+      </div>
+    </section>
+
+    <aside class="drinks">
+      <h3 style="margin:0 0 .25rem">Boissons du jour</h3>
+      <small style="opacity:.6;font-size:.68rem" id="drinks-subtitle">État : équilibre</small>
+      <div id="drinks-container"></div>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="qr-block">
+      <img src="./assets/qr-astrofood.png" alt="QR AstroFood" />
+      <div class="qr-legend">
+        Scanner pour accéder à la carte AstroFood<br />
+        بصمة فلكية &amp; وصفات يومية
+      </div>
+    </div>
+    <div style="font-size:.65rem;opacity:.55;">
+      AstroFood Premium Gold – v16.1 (deploy) – © INiAN
+    </div>
+  </footer>
+
+  <script>
+    // 12 signes
+    const ZODIAC = [
+      { id: "aries", fr: "Bélier", en: "Aries", ar: "الحمل", period: "21 mars – 19 avril" },
+      { id: "taurus", fr: "Taureau", en: "Taurus", ar: "الثور", period: "20 avril – 20 mai" },
+      { id: "gemini", fr: "Gémeaux", en: "Gemini", ar: "الجوزاء", period: "21 mai – 20 juin" },
+      { id: "cancer", fr: "Cancer", en: "Cancer", ar: "السرطان", period: "21 juin – 22 juillet" },
+      { id: "leo", fr: "Lion", en: "Leo", ar: "الأسد", period: "23 juillet – 22 août" },
+      { id: "virgo", fr: "Vierge", en: "Virgo", ar: "العذراء", period: "23 août – 22 sept." },
+      { id: "libra", fr: "Balance", en: "Libra", ar: "الميزان", period: "23 sept. – 22 oct." },
+      { id: "scorpio", fr: "Scorpion", en: "Scorpio", ar: "العقرب", period: "23 oct. – 21 nov." },
+      { id: "sagittarius", fr: "Sagittaire", en: "Sagittarius", ar: "القوس", period: "22 nov. – 21 déc." },
+      { id: "capricorn", fr: "Capricorne", en: "Capricorn", ar: "الجدي", period: "22 déc. – 19 janv." },
+      { id: "aquarius", fr: "Verseau", en: "Aquarius", ar: "الدلو", period: "20 janv. – 18 fév." },
+      { id: "pisces", fr: "Poissons", en: "Pisces", ar: "الحوت", period: "19 fév. – 20 mars" },
+    ];
+
+    let currentLang = "fr";
+    let currentSign = "aries";
+    let currentState = "equilibre";
+
+    const zodiacList = document.getElementById("zodiac-list");
+    const recipesContainer = document.getElementById("recipes-container");
+    const drinksContainer = document.getElementById("drinks-container");
+    const drinksSubtitle = document.getElementById("drinks-subtitle");
+    const currentSignLabel = document.getElementById("current-sign-label");
+
+    function renderZodiac() {
+      zodiacList.innerHTML = "";
+      ZODIAC.forEach(z => {
+        const btn = document.createElement("div");
+        btn.className = "zodiac-item" + (z.id === currentSign ? " active" : "");
+        btn.innerHTML = `
+          <strong>${z[currentLang]}</strong>
+          <span>${z.period}</span>
+        `;
+        btn.onclick = () => {
+          currentSign = z.id;
+          renderZodiac();
+          loadMeals();
+        };
+        zodiacList.appendChild(btn);
+      });
+    }
+
+    async function loadMeals() {
+      const res = await fetch(`./data/meals-${currentLang}.json`);
+      const allMeals = await res.json();
+      const mealsForSign = allMeals.filter(m => m.sign === currentSign);
+      recipesContainer.innerHTML = "";
+      currentSignLabel.textContent = ZODIAC.find(z => z.id === currentSign)[currentLang];
+      mealsForSign.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "meal-card";
+        card.innerHTML = `
+          <div class="meal-title">${m.title}</div>
+          <div class="meal-meta">${m.meal} • ${m.calories} kcal</div>
+          <div style="font-size:.7rem;opacity:.8;">${m.description}</div>
+          <button style="margin-top:.35rem;font-size:.65rem;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:999px;padding:.3rem .8rem;color:#fff;cursor:pointer"
+            onclick="askChef('${m.title.replace(/'/g,"\\'")}','${currentLang}')">
+            Chef-AI
+          </button>
+        `;
+        recipesContainer.appendChild(card);
+      });
+    }
+
+    async function loadDrinks() {
+      const res = await fetch(`./data/drinks-${currentLang}.json`);
+      const allDrinks = await res.json();
+      const drinksForState = allDrinks.filter(d => d.state === currentState);
+      drinksContainer.innerHTML = "";
+      drinksSubtitle.textContent = (currentLang === "fr" ? "État : " : currentLang === "en" ? "State: " : "الحالة: ") + currentState;
+      drinksForState.forEach(d => {
+        const card = document.createElement("div");
+        card.className = "drink-card";
+        card.innerHTML = `<strong>${d.name}</strong><br><span style="opacity:.6;font-size:.62rem;">${d.benefit}</span>`;
+        drinksContainer.appendChild(card);
+      });
+    }
+
+    async function askChef(dish, lang) {
+      // appel vers route sécurisée (pas de clé ici)
+      const res = await fetch("/api/astrofood-chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          dish,
+          lang,
+          sign: currentSign
+        })
+      });
+      const data = await res.json();
+      alert(data.answer || "Chef-AI est revenu sans réponse 😅");
+    }
+
+    // langues
+    document.getElementById("lang-switch").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-lang]");
+      if (!btn) return;
+      currentLang = btn.dataset.lang;
+      document.querySelectorAll("#lang-switch button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderZodiac();
+      loadMeals();
+      loadDrinks();
+    });
+
+    // init
+    renderZodiac();
+    loadMeals();
+    loadDrinks();
+  </script>
+</body>
+</html>

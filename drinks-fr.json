@@ -1,0 +1,17 @@
+[
+  {
+    "state": "equilibre",
+    "name": "Infusion gingembre-citron",
+    "benefit": "Drainante, bonne après repas."
+  },
+  {
+    "state": "fatigue",
+    "name": "Jus bissap menthe",
+    "benefit": "Riche en antioxydants, boost léger."
+  },
+  {
+    "state": "detox",
+    "name": "Eau concombre-citron",
+    "benefit": "Hydratation et purification naturelles."
+  }
+]
